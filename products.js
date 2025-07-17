@@ -2,11 +2,11 @@
 const productsData = [
     {
         id: 1,
-        name: "S30185 Light",
+        name: "1073 Wood-Series",
         category: "Floor Tiles",
         size: "600x600",
-        price: 80,
-        image: "https://i.ibb.co/pjqNfpW2/60x600-page44-img1.jpg",
+        price: 65,
+        image: "https://i.ibb.co/tMc418Bv/1073-Wood-Series.jpg",
         finish: "Matt",
         
         
@@ -50,12 +50,13 @@ const productsData = [
     },
     {
         id: 6,
-        name: "1073 Wood-Series",
+        name: "S30185 Light",
         category: "Floor Tiles",
         size: "600x600",
-        price: 65,
-        image: "https://i.ibb.co/tMc418Bv/1073-Wood-Series.jpg",
+        price: 80,
+        image: "https://i.ibb.co/pjqNfpW2/60x600-page44-img1.jpg",
         finish: "Matt",
+        
     },
     {
         id: 7,

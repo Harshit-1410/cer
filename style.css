@@ -514,6 +514,75 @@ body {
         width: 100%;
         max-width: 300px;
     }
+    /* Product Grid: 2 columns, 2-3 rows */
+    #productsContainer {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    .product-card {
+        border-radius: 10px;
+        margin-bottom: 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        padding: 0;
+        animation: fadeInUp 0.5s;
+        height: 100%;
+        min-width: 0;
+    }
+    .product-image {
+        aspect-ratio: 1.1;
+        min-height: 90px;
+    }
+    .product-info {
+        padding: 10px 6px;
+    }
+    .product-name {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+    .product-category {
+        font-size: 11px;
+        margin-bottom: 4px;
+    }
+    .product-price {
+        font-size: 15px;
+        margin-bottom: 2px;
+    }
+    .product-size {
+        font-size: 11px;
+        margin-bottom: 4px;
+    }
+    .btn-quick-view {
+        font-size: 12px;
+        padding: 7px 0;
+        border-radius: 5px;
+    }
+    /* Limit to 2-3 rows visually (show 4-6 products) */
+    #productsContainer > .col-lg-3,
+    #productsContainer > .col-md-4,
+    #productsContainer > .col-sm-6 {
+        grid-column: span 1 !important;
+        width: 100%;
+        max-width: 100%;
+        flex: none;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    .products-header {
+        padding: 24px 0 10px;
+        min-height: unset;
+        background-size: cover;
+    }
+    .products-header h1.display-4 {
+        font-size: 2rem;
+        margin-bottom: 0.7rem;
+        letter-spacing: 0.5px;
+    }
+    .products-header .lead {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.3;
+    }
 }
 
 /* Loading Animation for Calculator */
@@ -562,4 +631,4 @@ body {
     background: var(--primary-dark) !important;
     color: #fff !important;
     box-shadow: 0 4px 16px rgba(158,119,79,0.15);
-} 
+}

@@ -14,6 +14,8 @@
 /* Search and Filters */
 .search-filters {
     border-bottom: 1px solid #e9ecef;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .search-box .input-group {
@@ -240,7 +242,8 @@
     }
     
     .search-filters {
-        padding: 20px 0;
+        padding: 10px 0 0 0;
+        margin-bottom: 0;
     }
     
     .search-box .input-group {
@@ -405,4 +408,4 @@
     background: var(--primary-dark);
     transform: scale(1.1);
     color: white;
-} 
+}
