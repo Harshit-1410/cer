@@ -270,3 +270,37 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Animate category overlays on mobile when Our Collections section is in view
+(function() {
+  function isMobile() {
+    return window.innerWidth <= 767;
+  }
+  function animateCategoryCards() {
+    if (!isMobile()) return;
+    var section = document.getElementById('collections');
+    if (!section) return;
+    var rect = section.getBoundingClientRect();
+    var inView = rect.top < window.innerHeight && rect.bottom > 0;
+    var cards = section.querySelectorAll('.category-card');
+    if (inView) {
+      cards.forEach(function(card, i) {
+        setTimeout(function() {
+          card.classList.add('animate-overlay');
+        }, i * 120);
+      });
+      window.removeEventListener('scroll', animateCategoryCards);
+    }
+  }
+  window.addEventListener('scroll', animateCategoryCards);
+  window.addEventListener('DOMContentLoaded', animateCategoryCards);
+  window.addEventListener('resize', function() {
+    // Remove animation if resizing to desktop
+    if (!isMobile()) {
+      var cards = document.querySelectorAll('#collections .category-card');
+      cards.forEach(function(card) {
+        card.classList.remove('animate-overlay');
+      });
+    }
+  });
+})();

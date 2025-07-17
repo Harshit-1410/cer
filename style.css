@@ -647,10 +647,16 @@ body {
 }
 @media (max-width: 767px) {
     /* ...existing code... */
-    .category-card:hover .category-overlay,
+    /* Restore default overlay state for mobile */
     .category-card .category-overlay {
+        opacity: 0;
+        transform: translateY(100%);
+        transition: all 0.3s ease;
+    }
+    /* Animate overlay in when .animate-overlay class is added */
+    .category-card.animate-overlay .category-overlay {
         opacity: 1 !important;
         transform: translateY(0) !important;
-        transition: none !important;
+        transition: all 0.5s cubic-bezier(.4,2,.6,1);
     }
 }
