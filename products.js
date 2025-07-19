@@ -387,6 +387,23 @@ const totalCount = document.getElementById('totalCount');
 const loadMoreBtn = document.getElementById('loadMoreBtn');
 const activeFilters = document.getElementById('activeFilters');
 
+// Clear products container
+function clearProductsContainer() {
+    productsContainer.innerHTML = '';
+}
+
+// Debug function to check for duplicate products
+function checkForDuplicates() {
+    const productCards = document.querySelectorAll('.product-card');
+    const productIds = Array.from(productCards).map(card => card.getAttribute('data-product-id'));
+    const duplicates = productIds.filter((id, index) => productIds.indexOf(id) !== index);
+    if (duplicates.length > 0) {
+        console.warn('Duplicate products found:', duplicates);
+        return duplicates;
+    }
+    return [];
+}
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
     initializeProducts();
@@ -396,7 +413,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Initialize products display
 function initializeProducts() {
-    displayProducts(filteredProducts.slice(0, productsPerPage));
+    currentPage = 1;
+    isLoading = false;
+    displayProducts(filteredProducts.slice(0, productsPerPage), false);
     updateResultsCount();
 }
 
@@ -440,7 +459,8 @@ function handleSearch() {
         return matchesSearch && matchesCategory && matchesSize && matchesPrice;
     });
     currentPage = 1;
-    displayProducts(filteredProducts.slice(0, productsPerPage));
+    isLoading = false;
+    displayProducts(filteredProducts.slice(0, productsPerPage), false);
     updateResultsCount();
     updateActiveFilters();
 }
@@ -468,7 +488,8 @@ function handleFilters() {
         return matchesCategory && matchesSize && matchesPrice && matchesSearch;
     });
     currentPage = 1;
-    displayProducts(filteredProducts.slice(0, productsPerPage));
+    isLoading = false;
+    displayProducts(filteredProducts.slice(0, productsPerPage), false);
     updateResultsCount();
     updateActiveFilters();
 }
@@ -511,13 +532,15 @@ function handleSort() {
     });
     
     currentPage = 1;
-    displayProducts(filteredProducts.slice(0, productsPerPage));
+    isLoading = false;
+    displayProducts(filteredProducts.slice(0, productsPerPage), false);
     updateActiveFilters();
 }
 
 // Display products
-function displayProducts(products) {
+function displayProducts(products, isAppend = false) {
     if (products.length === 0) {
+        clearProductsContainer();
         productsContainer.innerHTML = `
             <div class="col-12">
                 <div class="no-results">
@@ -528,18 +551,20 @@ function displayProducts(products) {
                 </div>
             </div>
         `;
-        // Hide load more button (infinite scroll)
-        loadMoreBtn.style.display = 'none';
         return;
     }
     
     const productsHTML = products.map(product => createProductCard(product)).join('');
     
-    if (currentPage === 1) {
-        productsContainer.innerHTML = productsHTML;
-    } else {
+    if (isAppend && currentPage > 1) {
         productsContainer.innerHTML += productsHTML;
+    } else {
+        clearProductsContainer();
+        productsContainer.innerHTML = productsHTML;
     }
+    
+    // Debug check for duplicates in development
+    setTimeout(() => checkForDuplicates(), 100);
 }
 
 // Create product card HTML
@@ -606,7 +631,10 @@ window.addEventListener('scroll', function() {
             if (loadingRow) loadingRow.style.display = 'block';
             setTimeout(() => {
                 currentPage++;
-                displayProducts(filteredProducts.slice(0, currentPage * productsPerPage));
+                const startIndex = (currentPage - 1) * productsPerPage;
+                const endIndex = currentPage * productsPerPage;
+                const newProducts = filteredProducts.slice(startIndex, endIndex);
+                displayProducts(newProducts, true);
                 updateResultsCount();
                 isLoading = false;
                 // Hide loading message
@@ -700,7 +728,8 @@ function clearAllFilters() {
     
     filteredProducts = [...currentProducts];
     currentPage = 1;
-    displayProducts(filteredProducts.slice(0, productsPerPage));
+    isLoading = false;
+    displayProducts(filteredProducts.slice(0, productsPerPage), false);
     updateResultsCount();
     updateActiveFilters();
 }
